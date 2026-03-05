@@ -38,56 +38,29 @@
     overflow-x: hidden;
   }
 
-  /* CUSTOM CURSOR — mouse only */
-  body { cursor: none; }
-  .cursor {
-    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 10000;
-  }
-  .cursor-dot {
-    width: 8px; height: 8px; background: var(--gold);
-    border-radius: 50%; position: absolute;
-    transform: translate(-50%, -50%);
-  }
-  .cursor-ring {
-    width: 36px; height: 36px; border: 1px solid var(--gold);
-    border-radius: 50%; position: absolute;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s, height 0.3s, opacity 0.3s;
-    opacity: 0.45;
-  }
-  .cursor-hover .cursor-dot { background: var(--gold); }
-  .cursor-hover .cursor-ring { width: 56px; height: 56px; opacity: 0.2; }
-  @media (hover: none) {
-    body { cursor: auto; }
-    .cursor { display: none; }
-  }
-
   /* NAV */
   nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-    height: 70px;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    height: 68px;
     padding: 0 3rem;
     display: flex; align-items: center; justify-content: space-between;
-    transition: background 0.5s;
+    transition: background 0.4s;
   }
   nav.scrolled {
-    background: rgba(10,8,5,0.97);
-    backdrop-filter: blur(20px);
+    background: rgba(10,8,5,0.96);
+    backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
   }
   .nav-logo {
     font-family: var(--serif); font-size: 1rem; font-weight: 400;
     letter-spacing: 0.1em; color: var(--cream); text-decoration: none;
     display: flex; flex-direction: column; line-height: 1.3;
-    flex-shrink: 0;
   }
   .nav-logo span {
     font-size: 0.5rem; letter-spacing: 0.3em; color: var(--gold);
     font-family: var(--sans); font-weight: 300; text-transform: uppercase;
   }
-  /* Desktop links — centered absolutely so they never push CTA */
   .nav-links {
-    position: absolute; left: 50%; transform: translateX(-50%);
     display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0;
   }
   .nav-links a {
@@ -105,51 +78,53 @@
   .nav-cta {
     font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.22em;
     text-transform: uppercase; color: var(--gold);
-    border: 1px solid var(--gold); padding: 0.55rem 1.2rem;
+    border: 1px solid var(--gold); padding: 0.5rem 1.2rem;
     text-decoration: none; transition: background 0.3s, color 0.3s;
-    white-space: nowrap; flex-shrink: 0;
+    white-space: nowrap;
   }
   .nav-cta:hover { background: var(--gold); color: var(--black); }
 
-  /* HAMBURGER - hidden on desktop */
+  /* HAMBURGER — only visible on mobile */
   .hamburger {
     display: none;
     flex-direction: column; gap: 5px;
-    cursor: pointer; background: none; border: none; padding: 4px;
-    z-index: 9999; flex-shrink: 0;
+    background: none; border: none; padding: 4px; cursor: pointer;
   }
   .hamburger span {
-    display: block; width: 24px; height: 1.5px;
-    background: var(--cream); transition: all 0.3s; transform-origin: center;
+    display: block; width: 22px; height: 2px; background: var(--cream);
+    transition: all 0.25s; transform-origin: center;
   }
-  .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .hamburger.open span:nth-child(2) { opacity: 0; }
-  .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   /* MOBILE MENU */
   .mobile-menu {
     display: none;
-    position: fixed; inset: 0;
+    position: fixed; inset: 0; z-index: 190;
     background: var(--black);
-    z-index: 9000;
-    flex-direction: column; align-items: center; justify-content: center;
-    gap: 2rem;
+    flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
   }
   .mobile-menu.open { display: flex; }
   .mobile-menu a {
-    font-family: var(--serif); font-size: 2rem; font-weight: 300; font-style: italic;
-    color: var(--cream); text-decoration: none; letter-spacing: 0.05em;
-    transition: color 0.3s;
+    font-family: var(--serif); font-size: 1.8rem; font-weight: 300; font-style: italic;
+    color: var(--cream); text-decoration: none; transition: color 0.3s;
   }
   .mobile-menu a:hover { color: var(--gold); }
-  .mobile-menu-cta {
+  .mobile-book {
     margin-top: 0.5rem;
     font-family: var(--sans) !important; font-size: 0.65rem !important;
-    font-style: normal !important; letter-spacing: 0.28em !important;
+    font-style: normal !important; letter-spacing: 0.25em !important;
     text-transform: uppercase !important;
     border: 1px solid var(--gold) !important;
-    padding: 0.75rem 2rem !important;
-    color: var(--gold) !important;
+    padding: 0.7rem 2rem !important; color: var(--gold) !important;
+  }
+
+  @media (max-width: 860px) {
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    nav { padding: 0 1.5rem; }
   }
 
   /* HERO */
@@ -567,12 +542,6 @@
 </head>
 <body>
 
-<!-- CURSOR -->
-<div class="cursor">
-  <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-</div>
-
 <!-- NAV -->
 <nav id="mainNav">
   <a href="#hero" class="nav-logo">TobyDphotographer <span>Omoruyi Eghosa</span></a>
@@ -592,13 +561,13 @@
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#about" class="mobile-nav-link">About</a>
-  <a href="#collections" class="mobile-nav-link">Collections</a>
-  <a href="#services" class="mobile-nav-link">Services</a>
-  <a href="#cv" class="mobile-nav-link">CV &amp; Exhibitions</a>
-  <a href="#shop" class="mobile-nav-link">Shop</a>
-  <a href="#contact" class="mobile-nav-link">Contact</a>
-  <a href="#contact" class="mobile-nav-link mobile-menu-cta">Book Session</a>
+  <a href="#about" class="mnav">About</a>
+  <a href="#collections" class="mnav">Collections</a>
+  <a href="#services" class="mnav">Services</a>
+  <a href="#cv" class="mnav">CV &amp; Exhibitions</a>
+  <a href="#shop" class="mnav">Shop</a>
+  <a href="#contact" class="mnav">Contact</a>
+  <a href="#contact" class="mnav mobile-book">Book Session</a>
 </div>
 
 <!-- HERO -->
@@ -1395,47 +1364,24 @@
 </footer>
 
 <script>
-// CURSOR
-const dot = document.getElementById('cursorDot');
-const ring = document.getElementById('cursorRing');
-const cursorEl = document.querySelector('.cursor');
-let mx = 0, my = 0, rx = 0, ry = 0;
-
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  dot.style.left = mx + 'px';
-  dot.style.top  = my + 'px';
-});
-(function animCursor() {
-  rx += (mx - rx) * 0.13;
-  ry += (my - ry) * 0.13;
-  ring.style.left = rx + 'px';
-  ring.style.top  = ry + 'px';
-  requestAnimationFrame(animCursor);
-})();
-document.querySelectorAll('a, button, .masonry-item, .shop-item, .filter-btn').forEach(el => {
-  el.addEventListener('mouseenter', () => cursorEl.classList.add('cursor-hover'));
-  el.addEventListener('mouseleave', () => cursorEl.classList.remove('cursor-hover'));
-});
-
 // NAV SCROLL
 const mainNav = document.getElementById('mainNav');
 window.addEventListener('scroll', () => {
   mainNav.classList.toggle('scrolled', window.scrollY > 60);
 });
 
-// HAMBURGER + MOBILE MENU
+// HAMBURGER
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
 
 hamburger.addEventListener('click', () => {
-  const opening = !mobileMenu.classList.contains('open');
-  mobileMenu.classList.toggle('open', opening);
-  hamburger.classList.toggle('open', opening);
-  document.body.style.overflow = opening ? 'hidden' : '';
+  const isOpen = !mobileMenu.classList.contains('open');
+  mobileMenu.classList.toggle('open', isOpen);
+  hamburger.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
 });
 
-document.querySelectorAll('.mobile-nav-link').forEach(link => {
+document.querySelectorAll('.mnav').forEach(link => {
   link.addEventListener('click', () => {
     mobileMenu.classList.remove('open');
     hamburger.classList.remove('open');
