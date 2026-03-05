@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TobyDphotographer — Omoruyi Eghosa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0805;
+    --dark: #0F0D0A;
+    --surface: #161410;
+    --border: rgba(212,175,55,0.15);
+    --gold: #D4AF37;
+    --gold-soft: rgba(212,175,55,0.6);
+    --gold-dim: rgba(212,175,55,0.08);
+    --burgundy: #6B1E2E;
+    --burgundy-light: #8B2E42;
+    --cream: #F5F0E8;
+    --cream-dim: rgba(245,240,232,0.7);
+    --text-muted: rgba(245,240,232,0.4);
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'Jost', sans-serif;
+    --transition: cubic-bezier(0.25,0.1,0.25,1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: var(--sans);
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR — desktop only */
+  @media (pointer: fine) { body { cursor: none; } }
+  .cursor {
+    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
+  }
+  .cursor-dot {
+    width: 7px; height: 7px; background: var(--gold);
+    border-radius: 50%; position: absolute;
+    transform: translate(-50%,-50%);
+    transition: width 0.25s, height 0.25s;
+  }
+  .cursor-ring {
+    width: 34px; height: 34px; border: 1px solid var(--gold);
+    border-radius: 50%; position: absolute;
+    transform: translate(-50%,-50%);
+    transition: width 0.3s, height 0.3s, opacity 0.3s;
+    opacity: 0.5;
+  }
+  .cursor-hover .cursor-dot { width: 11px; height: 11px; }
+  .cursor-hover .cursor-ring { width: 54px; height: 54px; opacity: 0.25; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    padding: 1.4rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1.5rem;
+    transition: background 0.5s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(10,8,5,0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 1rem 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--serif); font-size: 1.05rem; font-weight: 400;
+    letter-spacing: 0.1em; color: var(--cream); text-decoration: none;
+    display: flex; flex-direction: column; line-height: 1.2;
+    flex-shrink: 0;
+  }
+  .nav-logo span {
+    font-size: 0.52rem; letter-spacing: 0.28em; color: var(--gold);
+    font-family: var(--sans); font-weight: 300; text-transform: uppercase;
+  }
+  .nav-center {
+    display: flex; align-items: center; gap: 2rem;
+    flex: 1; justify-content: center;
+  }
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0;
+  }
+  .nav-links a {
+    font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--cream-dim); text-decoration: none;
+    transition: color 0.3s; position: relative; white-space: nowrap;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: var(--gold); transform: scaleX(0);
+    transition: transform 0.3s var(--transition);
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-cta {
+    font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--gold);
+    border: 1px solid var(--gold); padding: 0.55rem 1.2rem;
+    text-decoration: none; transition: background 0.3s, color 0.3s;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--black); }
+
+  /* HAMBURGER — hidden by default, shown via media query */
+  .hamburger {
+    display: none;
+    flex-direction: column; justify-content: center; gap: 5px;
+    cursor: pointer; background: none; border: none; padding: 6px;
+    flex-shrink: 0; z-index: 600;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 1.5px;
+    background: var(--cream); transition: all 0.3s;
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* MOBILE MENU — above everything */
+  .mobile-menu {
+    display: none;
+    position: fixed; inset: 0;
+    background: var(--black);
+    z-index: 550;
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 1.8rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: var(--serif); font-size: 2rem; font-weight: 300; font-style: italic;
+    color: var(--cream); text-decoration: none; letter-spacing: 0.05em;
+    transition: color 0.3s;
+  }
+  .mobile-menu a:hover { color: var(--gold); }
+  .mobile-menu-cta {
+    margin-top: 0.8rem;
+    font-family: var(--sans) !important; font-size: 0.65rem !important;
+    font-style: normal !important; letter-spacing: 0.3em !important;
+    text-transform: uppercase !important; border: 1px solid var(--gold) !important;
+    padding: 0.75rem 2.2rem !important; color: var(--gold) !important;
+  }
+
+  /* HERO */
+  #hero {
+    position: relative; height: 100vh; min-height: 700px;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 60% 45%, #1A0A0A 0%, #0A0805 60%, #050403 100%);
+  }
+  /* Painterly texture overlay */
+  .hero-bg::before {
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+    opacity: 0.5; mix-blend-mode: overlay;
+  }
+  /* Portrait silhouette — painterly dark figure with dramatic light */
+  .hero-portrait {
+    position: absolute; right: 8%; top: 50%; transform: translateY(-50%);
+    width: min(42vw, 580px); height: min(80vh, 750px);
+  }
+  .hero-portrait svg { width: 100%; height: 100%; }
+  /* Candlelight glow */
+  .hero-glow {
+    position: absolute; right: 18%; top: 30%;
+    width: 300px; height: 400px;
+    background: radial-gradient(ellipse at 40% 30%, rgba(180,90,20,0.35) 0%, rgba(120,50,10,0.12) 40%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    left: 4%; max-width: 580px;
+    padding: 0 2rem;
+  }
+  .hero-eyebrow {
+    font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.4em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 1.8rem;
+    display: flex; align-items: center; gap: 1rem; opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+  }
+  .hero-eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--gold); }
+  .hero-title {
+    font-family: var(--serif); font-size: clamp(2.8rem, 5.5vw, 5rem);
+    font-weight: 300; line-height: 1.05; letter-spacing: -0.01em;
+    margin-bottom: 1rem; opacity: 0;
+    animation: fadeUp 1s 0.55s forwards;
+  }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-tagline {
+    font-family: var(--serif); font-style: italic; font-size: clamp(1rem, 1.6vw, 1.25rem);
+    color: var(--cream-dim); margin-bottom: 3rem; line-height: 1.7;
+    opacity: 0; animation: fadeUp 1s 0.75s forwards;
+  }
+  .hero-ctas {
+    display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0;
+    animation: fadeUp 1s 0.95s forwards;
+  }
+  .btn-primary {
+    font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.25em;
+    text-transform: uppercase; background: var(--gold); color: var(--black);
+    padding: 0.9rem 2rem; text-decoration: none; font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: #C09B28; transform: translateY(-2px); }
+  .btn-outline {
+    font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.25em;
+    text-transform: uppercase; border: 1px solid rgba(245,240,232,0.3);
+    color: var(--cream); padding: 0.9rem 2rem; text-decoration: none;
+    transition: border-color 0.3s, color 0.3s, transform 0.2s; display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+    opacity: 0; animation: fadeUp 1s 1.3s forwards;
+  }
+  .hero-scroll span { font-size: 0.55rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--text-muted); }
+  .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollPulse 2s 1.5s infinite; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes scrollPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  /* SECTION HELPERS */
+  section { padding: 8rem 4rem; position: relative; }
+  .section-label {
+    font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.45em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::before { content: ''; width: 32px; height: 1px; background: var(--gold); }
+  .section-title {
+    font-family: var(--serif); font-size: clamp(2.2rem, 4vw, 3.8rem);
+    font-weight: 300; line-height: 1.1; letter-spacing: -0.01em;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+  .divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 0;
+  }
+
+  /* ABOUT */
+  #about { background: var(--dark); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+    align-items: center; max-width: 1200px; margin: 0 auto;
+  }
+  .about-img-wrap {
+    position: relative;
+    aspect-ratio: 3/4; max-width: 460px;
+  }
+  .about-portrait {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: sepia(15%) contrast(1.1);
+  }
+  /* Painterly portrait placeholder */
+  .about-portrait-svg { width: 100%; height: 100%; }
+  .about-img-wrap::after {
+    content: ''; position: absolute; inset: -1px;
+    border: 1px solid var(--border);
+    pointer-events: none;
+  }
+  .about-img-wrap::before {
+    content: ''; position: absolute;
+    bottom: -16px; right: -16px;
+    width: 60%; height: 60%;
+    border: 1px solid var(--gold);
+    opacity: 0.25; pointer-events: none; z-index: -1;
+  }
+  .about-text .section-label { margin-top: 0; }
+  .about-text .section-title { margin-bottom: 2.5rem; }
+  .about-bio {
+    font-size: 0.95rem; line-height: 1.95; color: var(--cream-dim);
+    margin-bottom: 1.5rem;
+  }
+  .about-quote {
+    font-family: var(--serif); font-style: italic; font-size: 1.4rem;
+    line-height: 1.5; color: var(--gold-soft); border-left: 1px solid var(--gold);
+    padding-left: 1.5rem; margin: 2.5rem 0; font-weight: 300;
+  }
+  .about-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; }
+  .about-tag {
+    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+    border: 1px solid var(--border); color: var(--text-muted);
+    padding: 0.4rem 0.9rem;
+  }
+
+  /* STATEMENT STRIP */
+  .statement-strip {
+    background: var(--burgundy); padding: 5rem 4rem;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .statement-strip::before {
+    content: '';position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+  }
+  .statement-strip blockquote {
+    font-family: var(--serif); font-style: italic; font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+    line-height: 1.55; font-weight: 300; max-width: 800px; margin: 0 auto;
+    position: relative; z-index: 1;
+  }
+  .statement-strip cite {
+    display: block; margin-top: 1.5rem; font-family: var(--sans);
+    font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+    font-style: normal; color: rgba(255,255,255,0.6);
+  }
+
+  /* COLLECTIONS */
+  #collections { background: var(--black); }
+  .collections-header { max-width: 1200px; margin: 0 auto 4rem; }
+  .filter-bar {
+    display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 2.5rem;
+  }
+  .filter-btn {
+    font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.22em;
+    text-transform: uppercase; padding: 0.55rem 1.3rem;
+    border: 1px solid var(--border); background: none; color: var(--text-muted);
+    cursor: pointer; transition: all 0.3s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--gold); color: var(--gold); background: var(--gold-dim);
+  }
+  .masonry {
+    columns: 3; column-gap: 1.5rem;
+    max-width: 1300px; margin: 0 auto;
+  }
+  .masonry-item {
+    break-inside: avoid; margin-bottom: 1.5rem;
+    position: relative; overflow: hidden; cursor: pointer;
+    display: block;
+  }
+  .masonry-item img, .masonry-item .art-placeholder {
+    width: 100%; display: block;
+    filter: sepia(10%) contrast(1.05);
+    transition: transform 0.7s var(--transition), filter 0.5s;
+  }
+  .masonry-item:hover img, .masonry-item:hover .art-placeholder { transform: scale(1.03); filter: sepia(5%) contrast(1.1); }
+  .masonry-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,8,5,0.85) 0%, transparent 50%);
+    opacity: 0; transition: opacity 0.4s;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 1.5rem;
+  }
+  .masonry-item:hover .masonry-overlay { opacity: 1; }
+  .masonry-overlay h3 { font-family: var(--serif); font-size: 1.1rem; font-weight: 300; margin-bottom: 0.3rem; }
+  .masonry-overlay p { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+
+  /* ART PLACEHOLDERS — SVG painterly studies */
+  .art-placeholder { background: var(--surface); overflow: hidden; }
+
+  /* LIGHTBOX */
+  .lightbox {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(5,4,3,0.97);
+    align-items: center; justify-content: center;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox-inner {
+    display: grid; grid-template-columns: 1fr 1fr; max-width: 1100px;
+    width: 90vw; gap: 0; max-height: 90vh; overflow: hidden;
+  }
+  .lightbox-img { width: 100%; height: 100%; object-fit: cover; }
+  .lightbox-img-wrap { position: relative; overflow: hidden; }
+  .lightbox-info {
+    background: var(--dark); padding: 3.5rem;
+    display: flex; flex-direction: column; justify-content: center;
+    border-left: 1px solid var(--border);
+    overflow-y: auto;
+  }
+  .lightbox-series { font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  .lightbox-title { font-family: var(--serif); font-size: 2rem; font-weight: 300; margin-bottom: 0.5rem; }
+  .lightbox-year { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.15em; margin-bottom: 1.5rem; }
+  .lightbox-desc { font-size: 0.85rem; line-height: 1.85; color: var(--cream-dim); margin-bottom: 1.5rem; }
+  .lightbox-exhibition { font-size: 0.75rem; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 1rem; margin-bottom: 1.8rem; }
+  .lightbox-actions { display: flex; gap: 0.8rem; }
+  .lightbox-close {
+    position: fixed; top: 2rem; right: 2.5rem; background: none; border: none;
+    color: var(--cream-dim); font-size: 1.5rem; cursor: pointer;
+    font-family: var(--serif); letter-spacing: 0.2em; z-index: 201;
+    transition: color 0.3s;
+  }
+  .lightbox-close:hover { color: var(--gold); }
+
+  /* SERVICES */
+  #services { background: var(--surface); }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; max-width: 1200px; margin: 4rem auto 0; background: var(--border); }
+  .service-card { background: var(--dark); padding: 3.5rem 2.8rem; transition: background 0.4s; }
+  .service-card:hover { background: #161210; }
+  .service-icon { font-family: var(--serif); font-size: 2.5rem; color: var(--gold); margin-bottom: 1.5rem; font-style: italic; opacity: 0.7; }
+  .service-name { font-family: var(--serif); font-size: 1.4rem; font-weight: 300; margin-bottom: 1rem; }
+  .service-desc { font-size: 0.82rem; line-height: 1.9; color: var(--cream-dim); margin-bottom: 2rem; }
+  .service-price { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); }
+
+  /* CV / EXHIBITIONS */
+  #cv { background: var(--dark); }
+  .cv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; max-width: 1200px; margin: 4rem auto 0; }
+  .cv-section h3 { font-family: var(--serif); font-size: 1.6rem; font-weight: 300; margin-bottom: 2.5rem; color: var(--gold); font-style: italic; }
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--border); }
+  .timeline-item { position: relative; margin-bottom: 2.2rem; padding-left: 1.5rem; }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -2rem; top: 5px;
+    width: 7px; height: 7px; border: 1px solid var(--gold);
+    border-radius: 50%; background: var(--dark);
+    transform: translateX(50%);
+  }
+  .timeline-year { font-size: 0.6rem; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 0.4rem; }
+  .timeline-title { font-family: var(--serif); font-size: 1rem; font-weight: 400; margin-bottom: 0.3rem; }
+  .timeline-detail { font-size: 0.78rem; color: var(--text-muted); line-height: 1.7; }
+  .cv-skills { margin-top: 3rem; }
+  .cv-skill-row { display: flex; justify-content: space-between; align-items: center; padding: 0.9rem 0; border-bottom: 1px solid var(--border); }
+  .cv-skill-name { font-size: 0.78rem; letter-spacing: 0.08em; }
+  .cv-skill-bar { width: 120px; height: 1px; background: var(--border); position: relative; }
+  .cv-skill-fill { position: absolute; top: 0; left: 0; height: 100%; background: var(--gold); }
+
+  /* SHOP */
+  #shop { background: var(--black); }
+  .shop-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; max-width: 1300px; margin: 4rem auto 0; }
+  .shop-item { position: relative; cursor: pointer; }
+  .shop-item-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; transition: transform 0.5s var(--transition); }
+  .shop-item:hover .shop-item-img { transform: scale(1.03); }
+  .shop-item-img-wrap { overflow: hidden; position: relative; }
+  .shop-badge {
+    position: absolute; top: 0.8rem; left: 0.8rem;
+    font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+    background: var(--gold); color: var(--black); padding: 0.3rem 0.7rem; font-weight: 500;
+  }
+  .shop-item-info { padding: 1rem 0 0; }
+  .shop-item-title { font-family: var(--serif); font-size: 1rem; font-weight: 300; margin-bottom: 0.3rem; }
+  .shop-item-meta { display: flex; justify-content: space-between; align-items: center; }
+  .shop-item-price { font-size: 0.75rem; color: var(--gold); letter-spacing: 0.1em; }
+  .shop-item-platform { font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; }
+  .shop-links { display: flex; gap: 1rem; margin-top: 3.5rem; justify-content: center; flex-wrap: wrap; }
+  .shop-platform-link {
+    font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--cream-dim); border: 1px solid var(--border);
+    padding: 0.7rem 1.8rem; text-decoration: none; transition: all 0.3s;
+  }
+  .shop-platform-link:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* CONTACT */
+  #contact { background: var(--dark); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; max-width: 1200px; margin: 4rem auto 0; }
+  .contact-info h3 { font-family: var(--serif); font-style: italic; font-size: 1.8rem; font-weight: 300; margin-bottom: 2rem; }
+  .contact-info p { font-size: 0.85rem; line-height: 1.9; color: var(--cream-dim); margin-bottom: 2.5rem; }
+  .contact-detail { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
+  .contact-line { font-size: 0.78rem; color: var(--cream-dim); letter-spacing: 0.05em; }
+  .contact-line a { color: var(--gold); text-decoration: none; }
+  .social-links { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+  .social-link {
+    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--text-muted); text-decoration: none; border: 1px solid var(--border);
+    padding: 0.55rem 1.1rem; transition: all 0.3s;
+  }
+  .social-link:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* FORM */
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-group label { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-muted); }
+  .form-group input, .form-group select, .form-group textarea {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--cream); padding: 0.85rem 1rem; font-family: var(--sans);
+    font-size: 0.85rem; font-weight: 300; outline: none;
+    transition: border-color 0.3s;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+  .form-group textarea { min-height: 120px; resize: vertical; }
+  .form-group select option { background: var(--dark); }
+  .form-submit {
+    font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.28em;
+    text-transform: uppercase; background: var(--gold); color: var(--black);
+    border: none; padding: 1rem 2.5rem; cursor: pointer; font-weight: 500;
+    transition: background 0.3s, transform 0.2s; align-self: flex-start;
+  }
+  .form-submit:hover { background: #C09B28; transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black); padding: 4rem;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 2rem;
+  }
+  .footer-brand { font-family: var(--serif); font-size: 1.3rem; font-weight: 300; letter-spacing: 0.08em; }
+  .footer-brand span { display: block; font-family: var(--sans); font-size: 0.55rem; letter-spacing: 0.35em; color: var(--gold); text-transform: uppercase; margin-top: 0.3rem; }
+  .footer-nav { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .footer-nav a { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
+  .footer-nav a:hover { color: var(--gold); }
+  .footer-copy { font-size: 0.65rem; color: var(--text-muted); }
+
+  /* REVEAL ANIMATIONS */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.9s var(--transition), transform 0.9s var(--transition);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    nav { padding: 1.2rem 2rem; }
+    nav.scrolled { padding: 0.9rem 2rem; }
+    .nav-links { gap: 1.4rem; }
+    .masonry { columns: 2; }
+    .shop-grid { grid-template-columns: repeat(3, 1fr); }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .about-img-wrap { max-width: 100%; aspect-ratio: 4/3; }
+    .cv-grid { grid-template-columns: 1fr; gap: 4rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 900px) {
+    /* Hide desktop nav items, show hamburger */
+    .nav-center { display: none; }
+    .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    nav { padding: 1.1rem 1.5rem; }
+    nav.scrolled { padding: 0.85rem 1.5rem; }
+  }
+  @media (max-width: 768px) {
+    section { padding: 5rem 1.5rem; }
+    .hero-portrait { display: none; }
+    .hero-content { left: 0; max-width: 100%; }
+    .masonry { columns: 1; }
+    .shop-grid { grid-template-columns: repeat(2, 1fr); }
+    .services-grid { grid-template-columns: 1fr; }
+    .lightbox-inner { grid-template-columns: 1fr; }
+    .lightbox-img-wrap { height: 40vh; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; align-items: flex-start; gap: 1.5rem; padding: 2.5rem 1.5rem; }
+  }
+  @media (max-width: 480px) {
+    .shop-grid { grid-template-columns: 1fr; }
+    .hero-ctas { flex-direction: column; }
+    .hero-ctas a { text-align: center; }
+  }
+
+  /* Grain overlay on entire page */
+  body::after {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1000;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+    opacity: 0.35; mix-blend-mode: overlay;
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor">
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#hero" class="nav-logo">TobyDphotographer <span>Omoruyi Eghosa</span></a>
+  <div class="nav-center">
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#collections">Collections</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#cv">CV</a></li>
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+  <a href="#contact" class="nav-cta">Book Session</a>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" class="mobile-nav-link">About</a>
+  <a href="#collections" class="mobile-nav-link">Collections</a>
+  <a href="#services" class="mobile-nav-link">Services</a>
+  <a href="#cv" class="mobile-nav-link">CV &amp; Exhibitions</a>
+  <a href="#shop" class="mobile-nav-link">Shop</a>
+  <a href="#contact" class="mobile-nav-link">Contact</a>
+  <a href="#contact" class="mobile-nav-link mobile-menu-cta">Book Session</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-glow"></div>
+
+  <!-- Painterly self-portrait illustration -->
+  <div class="hero-portrait">
+    <svg viewBox="0 0 520 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="skinLight" cx="42%" cy="35%" r="55%">
+          <stop offset="0%" stop-color="#5C3010" stop-opacity="0.9"/>
+          <stop offset="40%" stop-color="#3A1C08" stop-opacity="0.85"/>
+          <stop offset="100%" stop-color="#0F0804" stop-opacity="1"/>
+        </radialGradient>
+        <radialGradient id="robeGrad" cx="50%" cy="50%" r="60%">
+          <stop offset="0%" stop-color="#4A0A18"/>
+          <stop offset="60%" stop-color="#2D050E"/>
+          <stop offset="100%" stop-color="#0A0205"/>
+        </radialGradient>
+        <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#1A0800" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#050202" stop-opacity="0.95"/>
+        </linearGradient>
+        <filter id="paintBlur">
+          <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+        <filter id="softGlow">
+          <feGaussianBlur stdDeviation="12" result="glow"/>
+          <feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Dark painterly background -->
+      <rect width="520" height="720" fill="url(#bgGrad)"/>
+      <!-- Subtle vignette -->
+      <ellipse cx="260" cy="240" rx="280" ry="300" fill="rgba(90,40,10,0.07)"/>
+
+      <!-- Draped robe / garment -->
+      <path d="M60 720 L80 480 Q100 440 130 430 Q160 420 180 450 L200 500 L220 480 Q240 460 260 460 Q290 460 310 480 L330 500 L350 450 Q370 420 400 430 Q430 440 450 480 L470 720 Z"
+            fill="url(#robeGrad)" filter="url(#paintBlur)"/>
+      <!-- Red drapery sash -->
+      <path d="M160 440 Q200 480 220 510 Q240 540 230 600 L250 720 L170 720 L155 560 Q140 510 145 470 Z"
+            fill="#5C0A18" opacity="0.85" filter="url(#paintBlur)"/>
+      <path d="M360 440 Q330 480 310 510 Q290 540 290 600 L285 720 L370 720 L380 550 Q395 500 390 460 Z"
+            fill="#4A0812" opacity="0.7" filter="url(#paintBlur)"/>
+
+      <!-- Neck & shoulders  -->
+      <path d="M195 420 Q220 400 260 398 Q300 396 325 420 L330 470 Q300 490 260 490 Q220 490 190 470 Z"
+            fill="url(#skinLight)"/>
+
+      <!-- Head shape -->
+      <ellipse cx="260" cy="310" rx="100" ry="118" fill="url(#skinLight)" filter="url(#paintBlur)"/>
+
+      <!-- Dramatic light on face — chiaroscuro -->
+      <ellipse cx="218" cy="290" rx="55" ry="70" fill="rgba(200,120,50,0.22)" filter="url(#softGlow)"/>
+      <ellipse cx="205" cy="275" rx="35" ry="45" fill="rgba(230,160,80,0.15)"/>
+
+      <!-- Eyes — deep, contemplative -->
+      <ellipse cx="235" cy="300" rx="14" ry="9" fill="#0A0502"/>
+      <ellipse cx="235" cy="299" rx="6" ry="6" fill="#1A0A04"/>
+      <ellipse cx="232" cy="297" rx="2" ry="2" fill="rgba(255,200,100,0.4)"/>
+      <ellipse cx="285" cy="300" rx="14" ry="9" fill="#0A0502"/>
+      <ellipse cx="285" cy="299" rx="6" ry="6" fill="#1A0A04"/>
+      <ellipse cx="282" cy="297" rx="2" ry="2" fill="rgba(255,200,100,0.3)"/>
+
+      <!-- Brow ridge shadow -->
+      <path d="M218 287 Q232 280 248 283" stroke="#0A0502" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M272 283 Q285 279 298 285" stroke="#0A0502" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+      <!-- Nose shadow -->
+      <path d="M260 305 Q255 325 248 335 Q260 338 272 335 Q265 325 260 305" fill="rgba(10,5,2,0.4)"/>
+
+      <!-- Lips -->
+      <path d="M243 350 Q260 344 278 350 Q270 358 260 360 Q250 358 243 350" fill="#2A0A10"/>
+
+      <!-- Chin shadow -->
+      <ellipse cx="260" cy="370" rx="40" ry="15" fill="rgba(5,2,1,0.4)"/>
+
+      <!-- Gold ornament / crown-like element -->
+      <path d="M180 245 Q200 205 260 195 Q320 205 340 245" stroke="#D4AF37" stroke-width="1.5" fill="none" opacity="0.6"/>
+      <circle cx="260" cy="193" r="5" fill="#D4AF37" opacity="0.7"/>
+      <circle cx="205" cy="225" r="3" fill="#D4AF37" opacity="0.5"/>
+      <circle cx="315" cy="225" r="3" fill="#D4AF37" opacity="0.5"/>
+
+      <!-- Background haze — painterly depth -->
+      <ellipse cx="150" cy="400" rx="100" ry="150" fill="rgba(80,30,10,0.08)"/>
+      <ellipse cx="400" cy="350" rx="80" ry="120" fill="rgba(40,10,5,0.1)"/>
+
+      <!-- Subtle texture strokes -->
+      <path d="M60 600 Q80 590 100 600 Q120 610 140 600" stroke="rgba(255,200,100,0.04)" stroke-width="1" fill="none"/>
+      <path d="M380 550 Q400 540 420 550 Q440 560 460 550" stroke="rgba(255,200,100,0.04)" stroke-width="1" fill="none"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Lagos, Nigeria · Est. 1997</div>
+    <h1 class="hero-title">Blurring<br><em>Photography</em><br>&amp; Painting</h1>
+    <p class="hero-tagline">Light is my brush,<br>the camera is my canvas.</p>
+    <div class="hero-ctas">
+      <a href="#collections" class="btn-primary">View Collections</a>
+      <a href="#contact" class="btn-outline">Book Portrait Session</a>
+      <a href="#shop" class="btn-outline">Shop Art</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-img-wrap reveal">
+      <!-- Studio portrait illustration -->
+      <svg class="about-portrait-svg" viewBox="0 0 460 610" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="p2" cx="38%" cy="30%" r="65%">
+            <stop offset="0%" stop-color="#6B3515" stop-opacity="0.9"/>
+            <stop offset="50%" stop-color="#3D1A07"/>
+            <stop offset="100%" stop-color="#0C0603"/>
+          </radialGradient>
+          <linearGradient id="bg2" x1="0%" y1="0%" x2="80%" y2="100%">
+            <stop offset="0%" stop-color="#1C0A02"/>
+            <stop offset="100%" stop-color="#060301"/>
+          </linearGradient>
+          <filter id="soft2"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <rect width="460" height="610" fill="url(#bg2)"/>
+        <ellipse cx="190" cy="220" rx="220" ry="250" fill="rgba(120,55,15,0.1)" filter="url(#soft2)"/>
+        <!-- Camera in hand - subtle suggestion -->
+        <rect x="200" y="380" width="100" height="70" rx="6" fill="#181008" opacity="0.8"/>
+        <rect x="215" y="370" width="30" height="20" rx="3" fill="#141006" opacity="0.7"/>
+        <circle cx="260" cy="415" r="22" fill="#0E0906"/>
+        <circle cx="260" cy="415" r="15" fill="#12100B"/>
+        <circle cx="260" cy="415" r="8" fill="#0A0807" opacity="0.8"/>
+        <ellipse cx="253" cy="408" rx="3" ry="3" fill="rgba(255,220,120,0.2)"/>
+        <!-- Body/arms -->
+        <path d="M140 610 L155 420 Q175 390 200 380 L300 380 Q330 390 350 420 L365 610 Z" fill="#1A0D06" opacity="0.9"/>
+        <!-- Neck -->
+        <path d="M200 370 Q230 355 260 355 Q285 355 300 370 L305 400 Q275 415 230 415 Q195 415 195 400 Z" fill="url(#p2)"/>
+        <!-- Head -->
+        <ellipse cx="250" cy="260" rx="92" ry="108" fill="url(#p2)"/>
+        <!-- Light catchment -->
+        <ellipse cx="210" cy="240" rx="48" ry="62" fill="rgba(210,140,55,0.18)" filter="url(#soft2)"/>
+        <!-- Eyes -->
+        <ellipse cx="226" cy="255" rx="13" ry="8" fill="#080402"/>
+        <ellipse cx="226" cy="254" rx="5" ry="5" fill="#160A04"/>
+        <ellipse cx="223" cy="252" rx="1.5" ry="1.5" fill="rgba(255,200,80,0.5)"/>
+        <ellipse cx="274" cy="255" rx="13" ry="8" fill="#080402"/>
+        <ellipse cx="274" cy="254" rx="5" ry="5" fill="#160A04"/>
+        <ellipse cx="271" cy="252" rx="1.5" ry="1.5" fill="rgba(255,200,80,0.4)"/>
+        <!-- Brows -->
+        <path d="M211 242 Q225 235 240 238" stroke="#080402" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M262 238 Q274 234 287 239" stroke="#080402" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- Nose/mouth -->
+        <path d="M248 278 Q242 295 236 303 Q248 307 262 303 Q256 295 248 278" fill="rgba(8,4,2,0.45)"/>
+        <path d="M234 330 Q248 323 263 330 Q256 338 248 340 Q240 338 234 330" fill="#240810"/>
+        <!-- Gold details -->
+        <path d="M178 195 Q200 162 250 155 Q300 162 322 195" stroke="#D4AF37" stroke-width="1.2" fill="none" opacity="0.55"/>
+        <circle cx="250" cy="153" r="4" fill="#D4AF37" opacity="0.65"/>
+      </svg>
+    </div>
+
+    <div class="about-text">
+      <div class="section-label reveal">About the Artist</div>
+      <h2 class="section-title reveal reveal-delay-1">Omoruyi<br><em>Eghosa</em></h2>
+      <p class="about-bio reveal reveal-delay-2">Born in Lagos, Nigeria in 1997, Omoruyi Eghosa—known as TobyDphotographer—is a self-taught multidisciplinary artist whose practice exists at the luminous threshold between photography and Old Master painting. What began as a personal exploration with a camera has evolved into one of the most distinctive visual languages in contemporary African art.</p>
+      <p class="about-bio reveal reveal-delay-2">Trained as a mechanical engineer, Toby brings a precision of thought to the controlled chaos of light, shadow, and texture. His early encounters with the Renaissance masters—Caravaggio's dramatic contrasts, Rembrandt's psychological depth, Vermeer's handling of light—catalysed a vision: to create images that feel painted, but breathe with the immediacy of the photographic moment.</p>
+      <div class="about-quote reveal">
+        "I am not photographing subjects. I am painting souls. Every fold of fabric, every catch of light on skin, is a brushstroke in a language older than the camera."
+      </div>
+      <p class="about-bio reveal reveal-delay-3">His practice is deeply personal and profoundly political—every self-portrait is a declaration: that the Black body is regal, that Black emotion deserves the visual vocabulary that European masters reserved for emperors and saints. Based in Lagos, Toby founded The Den of Artists, a collective that nurtures emerging visual talent across Nigeria.</p>
+      <div class="about-tags reveal">
+        <span class="about-tag">Self-Portrait</span>
+        <span class="about-tag">Chiaroscuro</span>
+        <span class="about-tag">Renaissance</span>
+        <span class="about-tag">Lagos, Nigeria</span>
+        <span class="about-tag">The Den of Artists</span>
+        <span class="about-tag">Photography × Painting</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATEMENT STRIP -->
+<div class="statement-strip">
+  <blockquote>
+    "To render Black skin in the language of Caravaggio is not appropriation—it is reclamation. It is the insistence that we were always worthy of that light."
+    <cite>— Omoruyi Eghosa, Artist Statement, 2022</cite>
+  </blockquote>
+</div>
+
+<div class="divider"></div>
+
+<!-- COLLECTIONS -->
+<section id="collections">
+  <div class="collections-header">
+    <div class="section-label reveal">Portfolio</div>
+    <h2 class="section-title reveal reveal-delay-1">Collections &amp; <em>Series</em></h2>
+    <div class="filter-bar reveal reveal-delay-2">
+      <button class="filter-btn active" data-filter="all">All Works</button>
+      <button class="filter-btn" data-filter="painterly">Painterly</button>
+      <button class="filter-btn" data-filter="orb">The Orb</button>
+      <button class="filter-btn" data-filter="self">Self-Portraits</button>
+      <button class="filter-btn" data-filter="drapery">Drapery Studies</button>
+      <button class="filter-btn" data-filter="royalty">Royalty</button>
+    </div>
+  </div>
+
+  <div class="masonry" id="masonryGrid">
+
+    <!-- Artwork 1 -->
+    <div class="masonry-item" data-series="painterly" onclick="openLightbox(0)">
+      <div class="art-placeholder" style="height:380px">
+        <svg width="100%" height="100%" viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="a1" cx="35%" cy="28%" r="60%"><stop offset="0%" stop-color="#5A2A08"/><stop offset="100%" stop-color="#080402"/></radialGradient>
+            <filter id="f1"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="5" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="8" xChannelSelector="R" yChannelSelector="G"/></filter>
+          </defs>
+          <rect width="400" height="380" fill="#0A0603"/>
+          <ellipse cx="145" cy="150" rx="130" ry="160" fill="url(#a1)" filter="url(#f1)"/>
+          <ellipse cx="120" cy="120" rx="60" ry="80" fill="rgba(180,90,25,0.2)"/>
+          <path d="M80 380 L95 260 Q110 230 140 225 L220 225 Q250 230 265 260 L280 380Z" fill="#160804" filter="url(#f1)"/>
+          <ellipse cx="155" cy="165" rx="75" ry="90" fill="url(#a1)"/>
+          <ellipse cx="130" cy="140" rx="32" ry="40" fill="rgba(220,150,60,0.18)"/>
+          <circle cx="138" cy="152" r="8" fill="#0A0402"/><circle cx="172" cy="152" r="8" fill="#0A0402"/>
+          <path d="M125 188 Q155 180 185 188 Q178 196 155 198 Q132 196 125 188" fill="#1E0808"/>
+          <path d="M95 95 Q120 62 160 55 Q200 62 225 95" stroke="#D4AF37" stroke-width="1.3" fill="none" opacity="0.5"/>
+          <circle cx="160" cy="53" r="4" fill="#D4AF37" opacity="0.6"/>
+          <!-- Red drapery suggestion -->
+          <path d="M40 380 L55 270 Q65 240 90 235 L100 270 Q80 300 75 380Z" fill="#4A0A16" opacity="0.75"/>
+        </svg>
+      </div>
+      <div class="masonry-overlay">
+        <h3>The Weight of Gold</h3>
+        <p>Painterly Series · 2022</p>
+      </div>
+    </div>
+
+    <!-- Artwork 2 - tall -->
+    <div class="masonry-item" data-series="orb" onclick="openLightbox(1)">
+      <div class="art-placeholder" style="height:520px">
+        <svg width="100%" height="100%" viewBox="0 0 400 520" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="a2" cx="45%" cy="35%" r="55%"><stop offset="0%" stop-color="#502208"/><stop offset="100%" stop-color="#060301"/></radialGradient>
+            <radialGradient id="orb1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#D4AF37" stop-opacity="0.7"/><stop offset="50%" stop-color="#8B6914" stop-opacity="0.3"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+          </defs>
+          <rect width="400" height="520" fill="#06030A"/>
+          <path d="M60 520 L75 370 Q95 330 125 320 L185 320 Q215 330 235 370 L250 520Z" fill="#100806"/>
+          <ellipse cx="160" cy="230" rx="95" ry="115" fill="url(#a2)"/>
+          <ellipse cx="130" cy="205" rx="45" ry="60" fill="rgba(200,110,30,0.2)"/>
+          <!-- Orb -->
+          <circle cx="260" cy="140" r="70" fill="url(#orb1)" opacity="0.9"/>
+          <circle cx="260" cy="140" r="65" stroke="#D4AF37" stroke-width="0.8" fill="none" opacity="0.4"/>
+          <circle cx="260" cy="140" r="45" stroke="#D4AF37" stroke-width="0.5" fill="none" opacity="0.2"/>
+          <ellipse cx="245" cy="128" rx="15" ry="15" fill="rgba(255,240,180,0.15)"/>
+          <!-- Face details -->
+          <circle cx="148" cy="220" r="9" fill="#0A0402"/><circle cx="180" cy="220" r="9" fill="#0A0402"/>
+          <ellipse cx="143" cy="218" rx="2.5" ry="2.5" fill="rgba(255,200,80,0.35)"/>
+          <ellipse cx="175" cy="218" rx="2.5" ry="2.5" fill="rgba(255,200,80,0.3)"/>
+          <path d="M135 252 Q163 244 192 252 Q184 262 163 265 Q142 262 135 252" fill="#1E0A10"/>
+          <path d="M90 170 Q115 138 160 130 Q205 138 228 170" stroke="#D4AF37" stroke-width="1.2" fill="none" opacity="0.45"/>
+        </svg>
+      </div>
+      <div class="masonry-overlay">
+        <h3>Orb Bearer I</h3>
+        <p>The Orb Series · 2023</p>
+      </div>
+    </div>
+
+    <!-- Artwork 3 -->
+    <div class="masonry-item" data-series="drapery" onclick="openLightbox(2)">
+      <div class="art-placeholder" style="height:300px">
+        <svg width="100%" height="100%" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="a3" cx="40%" cy="30%" r="55%"><stop offset="0%" stop-color="#4E1F08"/><stop offset="100%" stop-color="#070402"/></radialGradient>
+            <filter id="f3"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="7"/></filter>
+          </defs>
+          <rect width="400" height="300" fill="#080504"/>
+          <!-- Drapery study — abstract folds of fabric -->
+          <path d="M0 300 L0 100 Q30 80 50 120 Q70 160 60 220 Q55 260 80 300Z" fill="#3D0812" opacity="0.9"/>
+          <path d="M0 100 Q30 60 60 80 Q90 100 80 160 Q70 200 60 220 Q70 160 90 130 Q110 100 100 60 Q130 20 150 0 L0 0Z" fill="#52081A" opacity="0.7"/>
+          <!-- Figure draped -->
+          <path d="M120 300 L130 180 Q145 155 170 150 L250 150 Q270 155 280 180 L290 300Z" fill="#180C06" filter="url(#f3)"/>
+          <ellipse cx="200" cy="110" rx="65" ry="75" fill="url(#a3)"/>
+          <ellipse cx="178" cy="90" rx="28" ry="36" fill="rgba(200,110,30,0.18)"/>
+          <circle cx="185" cy="105" r="7" fill="#080402"/><circle cx="213" cy="105" r="7" fill="#080402"/>
+          <path d="M175 130 Q198 124 222 130 Q216 138 198 140 Q180 138 175 130" fill="#1C0808"/>
+        </svg>
+      </div>
+      <div class="masonry-overlay">
+        <h3>In Crimson, I Mourn</h3>
+        <p>Drapery Studies · 2022</p>
+      </div>
+    </div>
+
+    <!-- Artwork 4 — royalty -->
+    <div class="masonry-item" data-series="royalty" onclick="openLightbox(3)">
+      <div class="art-placeholder" style="height:460px">
+        <svg width="100%" height="100%" viewBox="0 0 400 460" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="a4" cx="42%" cy="32%" r="58%"><stop offset="0%" stop-color="#5E2A0C"/><stop offset="100%" stop-color="#090503"/></radialGradient>
+            <radialGradient id="crownGlow" cx="50%" cy="80%" r="60%"><stop offset="0%" stop-color="#D4AF37" stop-opacity="0.35"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+          </defs>
+          <rect width="400" height="460" fill="#07040A"/>
+          <ellipse cx="200" cy="200" rx="180" ry="220" fill="rgba(60,25,8,0.3)"/>
+          <!-- Crown glow from above -->
+          <ellipse cx="200" cy="80" rx="140" ry="60" fill="url(#crownGlow)"/>
+          <!-- Crown details -->
+          <path d="M130 110 L140 60 L160 90 L180 45 L200 75 L220 45 L240 90 L260 60 L270 110 Z" fill="#D4AF37" opacity="0.7"/>
+          <path d="M130 110 L270 110 L265 125 L135 125 Z" fill="#C09B28" opacity="0.8"/>
+          <!-- Gems on crown -->
+          <circle cx="165" cy="78" r="5" fill="#8B2035" opacity="0.9"/>
+          <circle cx="200" cy="65" r="6" fill="#D4AF37" opacity="0.9"/>
+          <circle cx="235" cy="78" r="5" fill="#1A3A6B" opacity="0.9"/>
+          <!-- Figure -->
+          <path d="M90 460 L105 310 Q122 270 155 260 L250 260 Q280 270 295 310 L310 460Z" fill="#100806" opacity="0.95"/>
+          <!-- Royal robe -->
+          <path d="M100 460 L108 330 Q118 300 140 295 L135 320 Q110 350 105 460Z" fill="#4A0812" opacity="0.85"/>
+          <path d="M300 460 L292 330 Q282 300 260 295 L265 320 Q290 350 295 460Z" fill="#380A10" opacity="0.8"/>
+          <!-- Head/face -->
+          <ellipse cx="200" cy="210" rx="88" ry="108" fill="url(#a4)"/>
+          <ellipse cx="173" cy="188" rx="38" ry="52" fill="rgba(215,130,45,0.2)"/>
+          <circle cx="183" cy="204" r="9" fill="#090402"/><circle cx="218" cy="204" r="9" fill="#090402"/>
+          <ellipse cx="178" cy="201" rx="2.5" ry="2.5" fill="rgba(255,210,90,0.4)"/>
+          <path d="M170 238 Q198 230 228 238 Q220 248 200 251 Q178 248 170 238" fill="#200C0E"/>
+          <!-- Jewellery suggestion -->
+          <path d="M155 265 Q180 280 200 278 Q220 280 245 265" stroke="#D4AF37" stroke-width="1.5" fill="none" opacity="0.55"/>
+          <circle cx="200" cy="277" r="4" fill="#D4AF37" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="masonry-overlay">
+        <h3>Lagos Sovereign</h3>
+        <p>Royalty Series · 2023</p>
+      </div>
+    </div>
+
+    <!-- Artwork 5 — self portrait -->
+    <div class="masonry-item" data-series="self" onclick="openLightbox(4)">
+      <div class="art-placeholder" style="height:350px">
+        <svg width="100%" height="100%" viewBox="0 0 400 350" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="a5" cx="50%" cy="38%" r="55%"><stop offset="0%" stop-color="#4E1E08"/><stop offset="100%" stop-color="#060302"/></radialGradient>
+          </defs>
+          <rect width="400" height="350" fill="#080504"/>
+          <!-- Mirror / reflection element -->
+          <rect x="60" y="30" width="140" height="180" rx="70" fill="rgba(255,200,100,0.04)" stroke="rgba(212,175,55,0.25)" stroke-width="1"/>
+          <!-- Figure looking down / reflective mood -->
+          <path d="M120 350 L132 240 Q148 215 175 210 L265 210 Q285 215 295 240 L305 350Z" fill="#120905"/>
+          <ellipse cx="210" cy="165" rx="82" ry="100" fill="url(#a5)"/>
+          <ellipse cx="182" cy="142" rx="35" ry="48" fill="rgba(200,110,30,0.2)"/>
+          <!-- Eyes cast downward / closed -->
+          <path d="M188 163 Q200 169 215 163" stroke="#0A0402" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M225 163 Q238 169 252 163" stroke="#0A0402" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M188 175 Q210 168 235 175" stroke="#1A0802" stroke-width="1.5" fill="none"/>
+          <path d="M185 195 Q210 186 238 195 Q230 205 210 208 Q190 205 185 195" fill="#1C0A0C"/>
+          <!-- Contemplative hand suggestion -->
+          <path d="M258 230 Q275 240 278 260 Q270 265 255 258 Q252 245 258 230" fill="#4E2010" opacity="0.7"/>
+          <path d="M130 95 Q155 68 210 62 Q265 68 285 95" stroke="#D4AF37" stroke-width="1.1" fill="none" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="masonry-overlay">
+        <h3>Self-Study No. 7</h3>
+        <p>Self-Portraits · 2021</p>
+      </div>
+    </div>
+
+    <!-- Artwork 6 — orb -->
+    <div class="masonry-item" data-series="orb" onclick="openLightbox(5)">
+      <div class="art-placeholder" style="height:400px">
+        <svg width="100%" height="100%" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="a6" cx="38%" cy="33%" r="58%"><stop offset="0%" stop-color="#561F0A"/><stop offset="100%" stop-color="#080403"/></radialGradient>
+            <radialGradient id="orb2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#D4AF37" stop-opacity="0.6"/><stop offset="60%" stop-color="#8B6914" stop-opacity="0.2"/><stop offset="100%" stop-color="transparent"/></radialGradient>
+            <filter id="orbGlow"><feGaussianBlur stdDeviation="15"/></filter>
+          </defs>
+          <rect width="400" height="400" fill="#060308"/>
+          <ellipse cx="200" cy="200" rx="180" ry="195" fill="rgba(30,10,5,0.4)"/>
+          <!-- Floating orb with glow -->
+          <circle cx="290" cy="110" r="55" fill="#D4AF37" opacity="0.08" filter="url(#orbGlow)"/>
+          <circle cx="290" cy="110" r="55" fill="url(#orb2)"/>
+          <circle cx="290" cy="110" r="52" stroke="#D4AF37" stroke-width="0.7" fill="none" opacity="0.35"/>
+          <ellipse cx="276" cy="98" rx="12" ry="12" fill="rgba(255,245,180,0.18)"/>
+          <!-- Figure -->
+          <path d="M100 400 L114 280 Q130 248 158 242 L248 242 Q270 248 282 280 L295 400Z" fill="#120906"/>
+          <ellipse cx="195" cy="190" rx="88" ry="106" fill="url(#a6)"/>
+          <ellipse cx="165" cy="165" rx="40" ry="55" fill="rgba(210,125,40,0.22)"/>
+          <circle cx="175" cy="183" r="10" fill="#090402"/><circle cx="213" cy="183" r="10" fill="#090402"/>
+          <ellipse cx="170" cy="180" rx="2.8" ry="2.8" fill="rgba(255,210,85,0.4)"/>
+          <path d="M162 220 Q193 212 225 220 Q217 232 194 235 Q171 232 162 220" fill="#200C10"/>
+          <path d="M125 110 Q150 76 195 68 Q242 76 265 110" stroke="#D4AF37" stroke-width="1.3" fill="none" opacity="0.48"/>
+          <circle cx="195" cy="66" r="4.5" fill="#D4AF37" opacity="0.65"/>
+        </svg>
+      </div>
+      <div class="masonry-overlay">
+        <h3>Orb Bearer II</h3>
+        <p>The Orb Series · 2023</p>
+      </div>
+    </div>
+
+    <!-- Artwork 7 — painterly -->
+    <div class="masonry-item" data-series="painterly" onclick="openLightbox(6)">
+      <div class="art-placeholder" style="height:430px">
+        <svg width="100%" height="100%" viewBox="0 0 400 430" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="a7" cx="55%" cy="30%" r="52%"><stop offset="0%" stop-color="#5A2808"/><stop offset="100%" stop-color="#070402"/></radialGradient>
+          </defs>
+          <rect width="400" height="430" fill="#080406"/>
+          <!-- Strong side lighting from right -->
+          <ellipse cx="310" cy="165" rx="130" ry="175" fill="rgba(180,90,20,0.18)"/>
+          <path d="M100 430 L115 300 Q130 265 162 258 L245 258 Q270 265 282 300 L295 430Z" fill="#110806"/>
+          <!-- White/cream shirt with open collar — suggests Renaissance scholar -->
+          <path d="M130 280 Q162 268 200 265 Q238 268 270 280 L265 310 Q245 300 200 298 Q155 300 135 310 Z" fill="#1A1208" opacity="0.9"/>
+          <path d="M185 265 L200 285 L215 265" fill="#181210" opacity="0.8"/>
+          <ellipse cx="215" cy="195" rx="92" ry="112" fill="url(#a7)"/>
+          <!-- Strong light rim right side -->
+          <ellipse cx="258" cy="175" rx="38" ry="55" fill="rgba(220,145,50,0.22)"/>
+          <circle cx="198" cy="193" r="9.5" fill="#090402"/><circle cx="234" cy="193" r="9.5" fill="#090402"/>
+          <ellipse cx="239" cy="190" rx="2.8" ry="2.8" fill="rgba(255,210,80,0.45)"/>
+          <path d="M183 228 Q212 220 244 228 Q236 239 212 242 Q188 239 183 228" fill="#1F0C0E"/>
+          <path d="M140 115 Q165 80 215 73 Q260 80 278 115" stroke="#D4AF37" stroke-width="1.2" fill="none" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="masonry-overlay">
+        <h3>Painterly Study III</h3>
+        <p>Painterly Series · 2022</p>
+      </div>
+    </div>
+
+    <!-- Artwork 8 -->
+    <div class="masonry-item" data-series="self" onclick="openLightbox(7)">
+      <div class="art-placeholder" style="height:310px">
+        <svg width="100%" height="100%" viewBox="0 0 400 310" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="a8" cx="44%" cy="35%" r="56%"><stop offset="0%" stop-color="#4A1C08"/><stop offset="100%" stop-color="#060302"/></radialGradient>
+          </defs>
+          <rect width="400" height="310" fill="#070403"/>
+          <path d="M105 310 L118 210 Q133 183 162 177 L248 177 Q268 183 278 210 L290 310Z" fill="#100805"/>
+          <ellipse cx="195" cy="138" rx="80" ry="98" fill="url(#a8)"/>
+          <ellipse cx="168" cy="116" rx="34" ry="46" fill="rgba(210,120,35,0.19)"/>
+          <circle cx="176" cy="132" r="8.5" fill="#090402"/><circle cx="212" cy="132" r="8.5" fill="#090402"/>
+          <ellipse cx="171" cy="129" rx="2.3" ry="2.3" fill="rgba(255,215,80,0.38)"/>
+          <path d="M162 162 Q192 154 223 162 Q215 171 194 174 Q173 171 162 162" fill="#1E0A0E"/>
+          <!-- Dramatic window light shaft -->
+          <path d="M300 0 L400 0 L400 200 L340 200 Z" fill="rgba(200,140,50,0.07)"/>
+          <path d="M120 100 Q145 68 193 61 Q238 68 258 100" stroke="#D4AF37" stroke-width="1.1" fill="none" opacity="0.43"/>
+        </svg>
+      </div>
+      <div class="masonry-overlay">
+        <h3>Self-Study No. 12</h3>
+        <p>Self-Portraits · 2023</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">✕ Close</button>
+  <div class="lightbox-inner">
+    <div class="lightbox-img-wrap">
+      <svg id="lightboxSvg" width="100%" height="100%" viewBox="0 0 500 620" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <div class="lightbox-info">
+      <div class="lightbox-series" id="lbSeries">Painterly Series</div>
+      <h2 class="lightbox-title" id="lbTitle">The Weight of Gold</h2>
+      <div class="lightbox-year" id="lbYear">2022 · Archival Pigment Print · 80×100 cm</div>
+      <p class="lightbox-desc" id="lbDesc">A meditation on inherited weight and ancestral responsibility. The subject bears a crown not of gold but of expectation — the luminosity of skin against the void of history's silence.</p>
+      <div class="lightbox-exhibition" id="lbExhibition">
+        <strong style="color:var(--cream-dim);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;">Exhibited</strong><br>
+        <span style="font-size:0.8rem;line-height:1.7;margin-top:0.4rem;display:block;">Painterly Solo Exhibition — Lagos, 2022<br>Indianapolis Cultural Center — 2022</span>
+      </div>
+      <div class="lightbox-actions">
+        <a href="#contact" class="btn-primary" onclick="closeLightbox()">Inquire</a>
+        <a href="#shop" class="btn-outline" onclick="closeLightbox()">View in Shop</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label reveal" style="max-width:1200px;margin:0 auto 0.8rem">What I Offer</div>
+  <h2 class="section-title reveal reveal-delay-1" style="max-width:1200px;margin:0 auto 0">Services &amp; <em>Commissions</em></h2>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">I.</div>
+      <h3 class="service-name">Artistic Portrait Session</h3>
+      <p class="service-desc">A bespoke portrait experience created in the Painterly tradition. You come as yourself; you leave as a Renaissance subject. Sessions incorporate dramatic chiaroscuro lighting, curated drapery, and post-production treatment that transforms your photograph into something approaching a painted masterwork. Prints available in museum archival quality.</p>
+      <div class="service-price">Commission-based · By Inquiry</div>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-icon">II.</div>
+      <h3 class="service-name">Editorial &amp; Brand</h3>
+      <p class="service-desc">Atmospheric editorial campaigns, brand identity shoots, and commercial work executed with the same philosophical depth as personal practice. Clients seeking work that transcends the ordinary — fashion, luxury goods, cultural institutions — are invited to discuss a collaboration. Based in Lagos, available internationally.</p>
+      <div class="service-price">Day Rate Available · By Inquiry</div>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-icon">III.</div>
+      <h3 class="service-name">Limited Edition Prints</h3>
+      <p class="service-desc">Each image in the collection is available as a numbered, signed archival pigment print, produced at fine art standards. Editions are intentionally small — never more than ten — to honour the integrity of each work. Certificates of authenticity accompany every print. NFT editions available on Foundation.app, SuperRare, and TransientLabs.</p>
+      <div class="service-price">From $800 USD · Limited Editions</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CV & EXHIBITIONS -->
+<section id="cv">
+  <div class="section-label reveal" style="max-width:1200px;margin:0 auto 0.8rem">Résumé</div>
+  <h2 class="section-title reveal reveal-delay-1" style="max-width:1200px;margin:0 auto 0">CV &amp; <em>Exhibitions</em></h2>
+  <div class="cv-grid">
+    <div class="cv-section reveal">
+      <h3>Solo Exhibitions</h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">2022</div>
+          <div class="timeline-title">Painterly — Lagos Edition</div>
+          <div class="timeline-detail">Galerie du Noir, Lagos, Nigeria<br>The exhibition that announced a singular artistic vision — 18 large-format self-portraits exploring the intersection of Old Master technique and contemporary Nigerian identity.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2022</div>
+          <div class="timeline-title">Painterly — Indianapolis</div>
+          <div class="timeline-detail">Indianapolis Cultural Arts Center, Indiana, USA<br>International debut. The series travelled to Indianapolis as part of an ongoing dialogue between African and American visual cultures.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2023</div>
+          <div class="timeline-title">The Orb</div>
+          <div class="timeline-detail">Lagos, Nigeria<br>A new body of work exploring mysticism, ancestral wisdom, and the sacred geometry of light — photographs that feel like scripture.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cv-section reveal reveal-delay-1">
+      <h3>Group Exhibitions &amp; Recognition</h3>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">2022–24</div>
+          <div class="timeline-title">International Group Exhibitions</div>
+          <div class="timeline-detail">Nairobi Arts Week, Kenya · Contemporary Photography Fair, Rome, Italy · Harlem Cultural Festival, New York, USA · New Contemporaries, London, UK · ArtX Lagos, Abuja, Nigeria</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2021</div>
+          <div class="timeline-title">Founded The Den of Artists</div>
+          <div class="timeline-detail">Lagos, Nigeria<br>A collective and safe space for emerging visual artists in Nigeria — photographers, painters, illustrators — providing mentorship, shared studio space, and exhibition opportunities.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2020</div>
+          <div class="timeline-title">First NFT Drop</div>
+          <div class="timeline-detail">Foundation.app · SuperRare · TransientLabs<br>Early adopter of web3 art ecosystems, establishing a digital presence that extends the reach of the painterly tradition into new markets.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2019</div>
+          <div class="timeline-title">Self-Taught Practice Begins</div>
+          <div class="timeline-detail">Lagos, Nigeria<br>Following mechanical engineering studies, began exploring self-portraiture as a private language. The camera became a site of investigation: What does it mean to truly see oneself?</div>
+        </div>
+      </div>
+      <div class="cv-skills" style="margin-top:2.5rem">
+        <div class="section-label" style="margin-bottom:1.5rem">Practice</div>
+        <div class="cv-skill-row"><span class="cv-skill-name">Chiaroscuro Lighting</span><div class="cv-skill-bar"><div class="cv-skill-fill" style="width:96%"></div></div></div>
+        <div class="cv-skill-row"><span class="cv-skill-name">Post-Production / Digital Painting</span><div class="cv-skill-bar"><div class="cv-skill-fill" style="width:90%"></div></div></div>
+        <div class="cv-skill-row"><span class="cv-skill-name">Large Format Printing</span><div class="cv-skill-bar"><div class="cv-skill-fill" style="width:85%"></div></div></div>
+        <div class="cv-skill-row"><span class="cv-skill-name">Art Direction</span><div class="cv-skill-bar"><div class="cv-skill-fill" style="width:88%"></div></div></div>
+        <div class="cv-skill-row"><span class="cv-skill-name">NFT / Web3 Art</span><div class="cv-skill-bar"><div class="cv-skill-fill" style="width:78%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SHOP -->
+<section id="shop">
+  <div class="section-label reveal" style="max-width:1300px;margin:0 auto 0.8rem">Acquire</div>
+  <h2 class="section-title reveal reveal-delay-1" style="max-width:1300px;margin:0 auto 0">Art <em>Catalog</em></h2>
+
+  <div class="shop-grid">
+
+    <div class="shop-item reveal">
+      <div class="shop-item-img-wrap">
+        <div class="shop-badge">Available</div>
+        <div class="art-placeholder shop-item-img" style="height:100%;min-height:280px">
+          <svg width="100%" height="100%" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="s1" cx="38%" cy="30%" r="55%"><stop offset="0%" stop-color="#5A2808"/><stop offset="100%" stop-color="#070402"/></radialGradient></defs>
+            <rect width="300" height="380" fill="#090603"/>
+            <path d="M60 380 L70 255 Q83 228 108 222 L192 222 Q215 228 228 255 L238 380Z" fill="#120906"/>
+            <ellipse cx="150" cy="178" rx="72" ry="88" fill="url(#s1)"/>
+            <ellipse cx="126" cy="155" rx="32" ry="44" fill="rgba(200,115,30,0.2)"/>
+            <circle cx="136" cy="172" r="8" fill="#090402"/><circle cx="163" cy="172" r="8" fill="#090402"/>
+            <path d="M124 200 Q148 192 174 200 Q167 209 148 212 Q129 209 124 200" fill="#1E0A0E"/>
+            <path d="M92 104 Q113 75 150 68 Q187 75 208 104" stroke="#D4AF37" stroke-width="1" fill="none" opacity="0.48"/>
+            <circle cx="150" cy="66" r="4" fill="#D4AF37" opacity="0.6"/>
+          </svg>
+        </div>
+      </div>
+      <div class="shop-item-info">
+        <div class="shop-item-title">The Weight of Gold</div>
+        <div class="shop-item-meta">
+          <span class="shop-item-price">Ed. 3/10 · $1,200</span>
+          <span class="shop-item-platform">Foundation.app</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-item reveal reveal-delay-1">
+      <div class="shop-item-img-wrap">
+        <div class="shop-badge">Sold Out</div>
+        <div class="art-placeholder shop-item-img" style="height:100%;min-height:280px">
+          <svg width="100%" height="100%" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="s2" cx="50%" cy="35%" r="52%"><stop offset="0%" stop-color="#4E2008"/><stop offset="100%" stop-color="#060302"/></radialGradient><radialGradient id="so2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#D4AF37" stop-opacity="0.65"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs>
+            <rect width="300" height="380" fill="#06030A"/>
+            <circle cx="230" cy="85" r="48" fill="url(#so2)"/>
+            <circle cx="230" cy="85" r="45" stroke="#D4AF37" stroke-width="0.7" fill="none" opacity="0.3"/>
+            <path d="M65 380 L75 265 Q88 238 112 232 L190 232 Q212 238 225 265 L235 380Z" fill="#100806"/>
+            <ellipse cx="150" cy="195" rx="76" ry="93" fill="url(#s2)"/>
+            <ellipse cx="122" cy="170" rx="34" ry="48" fill="rgba(205,118,32,0.21)"/>
+            <circle cx="132" cy="188" r="9" fill="#090402"/><circle cx="167" cy="188" r="9" fill="#090402"/>
+            <path d="M120 218 Q148 210 178 218 Q170 228 150 231 Q130 228 120 218" fill="#200C10"/>
+            <path d="M88 110 Q110 78 150 70 Q190 78 212 110" stroke="#D4AF37" stroke-width="1.1" fill="none" opacity="0.46"/>
+          </svg>
+        </div>
+      </div>
+      <div class="shop-item-info">
+        <div class="shop-item-title">Orb Bearer I</div>
+        <div class="shop-item-meta">
+          <span class="shop-item-price">Ed. 10/10 · Sold</span>
+          <span class="shop-item-platform">SuperRare</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-item reveal reveal-delay-2">
+      <div class="shop-item-img-wrap">
+        <div class="shop-badge">Available</div>
+        <div class="art-placeholder shop-item-img" style="height:100%;min-height:280px">
+          <svg width="100%" height="100%" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="s3" cx="45%" cy="32%" r="55%"><stop offset="0%" stop-color="#5E2A0C"/><stop offset="100%" stop-color="#090503"/></radialGradient><radialGradient id="cg3" cx="50%" cy="90%" r="55%"><stop offset="0%" stop-color="#D4AF37" stop-opacity="0.3"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs>
+            <rect width="300" height="380" fill="#07040A"/>
+            <ellipse cx="150" cy="70" rx="110" ry="50" fill="url(#cg3)"/>
+            <path d="M100 105 L108 58 L120 82 L136 40 L150 65 L164 40 L180 82 L192 58 L200 105Z" fill="#D4AF37" opacity="0.65"/>
+            <path d="M100 105 L200 105 L196 118 L104 118Z" fill="#C09B28" opacity="0.75"/>
+            <circle cx="124" cy="70" r="4" fill="#8B2035" opacity="0.9"/>
+            <circle cx="150" cy="60" r="5" fill="#D4AF37" opacity="0.9"/>
+            <circle cx="178" cy="70" r="4" fill="#1A3A6B" opacity="0.9"/>
+            <path d="M70 380 L80 268 Q94 240 118 234 L184 234 Q205 240 218 268 L228 380Z" fill="#100806"/>
+            <ellipse cx="150" cy="196" rx="82" ry="100" fill="url(#s3)"/>
+            <ellipse cx="124" cy="172" rx="35" ry="50" fill="rgba(215,128,42,0.21)"/>
+            <circle cx="134" cy="190" r="9" fill="#090402"/><circle cx="168" cy="190" r="9" fill="#090402"/>
+            <path d="M122 222 Q149 214 178 222 Q170 232 150 235 Q130 232 122 222" fill="#200C0E"/>
+          </svg>
+        </div>
+      </div>
+      <div class="shop-item-info">
+        <div class="shop-item-title">Lagos Sovereign</div>
+        <div class="shop-item-meta">
+          <span class="shop-item-price">Ed. 2/10 · $2,400</span>
+          <span class="shop-item-platform">TransientLabs</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="shop-item reveal reveal-delay-3">
+      <div class="shop-item-img-wrap">
+        <div class="shop-badge">Available</div>
+        <div class="art-placeholder shop-item-img" style="height:100%;min-height:280px">
+          <svg width="100%" height="100%" viewBox="0 0 300 380" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="s4" cx="42%" cy="35%" r="56%"><stop offset="0%" stop-color="#4A1C08"/><stop offset="100%" stop-color="#060302"/></radialGradient></defs>
+            <rect width="300" height="380" fill="#080504"/>
+            <path d="M65 380 L77 260 Q90 234 115 228 L188 228 Q210 234 222 260 L233 380Z" fill="#110805"/>
+            <ellipse cx="150" cy="186" rx="78" ry="96" fill="url(#s4)"/>
+            <ellipse cx="122" cy="163" rx="34" ry="47" fill="rgba(205,118,32,0.2)"/>
+            <path d="M143 200 Q154 207 165 200" stroke="#0A0402" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <path d="M180 200 Q191 207 202 200" stroke="#0A0402" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+            <path d="M136 218 Q162 210 190 218 Q182 228 162 231 Q142 228 136 218" fill="#1C0A0C"/>
+            <path d="M80 250 Q100 265 105 285 Q98 290 86 284 Q82 268 80 250" fill="#4A2010" opacity="0.7"/>
+            <!-- Contemplative atmosphere -->
+            <path d="M200 0 L300 0 L300 150 L240 150Z" fill="rgba(190,135,45,0.06)"/>
+            <path d="M95 106 Q116 74 150 67 Q185 74 204 106" stroke="#D4AF37" stroke-width="1.0" fill="none" opacity="0.42"/>
+          </svg>
+        </div>
+      </div>
+      <div class="shop-item-info">
+        <div class="shop-item-title">Self-Study No. 7</div>
+        <div class="shop-item-meta">
+          <span class="shop-item-price">Ed. 5/10 · $950</span>
+          <span class="shop-item-platform">Foundation.app</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="shop-links reveal">
+    <a href="https://foundation.app" target="_blank" class="shop-platform-link">Foundation.app →</a>
+    <a href="https://superrare.com" target="_blank" class="shop-platform-link">SuperRare →</a>
+    <a href="https://transientlabs.xyz" target="_blank" class="shop-platform-link">TransientLabs →</a>
+    <a href="#contact" class="shop-platform-link">Inquire Directly →</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <div class="section-label">Get in Touch</div>
+      <h2 class="section-title" style="margin-bottom:2rem">Let's Create<br><em>Something Timeless</em></h2>
+      <p>Whether you're interested in acquiring a work, commissioning a portrait, or discussing a collaboration — every conversation begins with a single message. I work with a small number of clients each year to ensure each project receives the depth of attention it deserves.</p>
+      <div class="contact-detail">
+        <div class="contact-line">Studio — Lagos, Nigeria</div>
+        <div class="contact-line">Email — <a href="/cdn-cgi/l/email-protection#09616c656566497d666b706d7961667d666e7b6879616c7b276a6664"><span class="__cf_email__" data-cfemail="bcd4d9d0d0d3fcc8d3dec5d8ccd4d3c8d3dbceddccd4d9ce92dfd3d1">[email&#160;protected]</span></a></div>
+        <div class="contact-line">Available for international travel</div>
+      </div>
+      <div class="social-links">
+        <a href="https://instagram.com/tobydphotographer" target="_blank" class="social-link">Instagram</a>
+        <a href="https://foundation.app/@tobyd" target="_blank" class="social-link">Foundation</a>
+        <a href="https://superrare.com/tobyd" target="_blank" class="social-link">SuperRare</a>
+        <a href="https://twitter.com/tobydphoto" target="_blank" class="social-link">Twitter/X</a>
+        <a href="https://behance.net/tobydphotographer" target="_blank" class="social-link">Behance</a>
+      </div>
+    </div>
+
+    <div class="reveal reveal-delay-1">
+      <div class="contact-form" id="contactForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" placeholder="Your name">
+          </div>
+          <div class="form-group">
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" placeholder="Last name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label for="subject">Inquiry Type</label>
+          <select id="subject">
+            <option value="">Select an inquiry type</option>
+            <option>Commission Portrait Session</option>
+            <option>Acquire a Print</option>
+            <option>NFT / Digital Edition</option>
+            <option>Editorial / Commercial</option>
+            <option>Exhibition / Curatorial</option>
+            <option>Press / Media</option>
+            <option>The Den of Artists</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" placeholder="Tell me about your project, the work you're drawn to, or what you have in mind..."></textarea>
+        </div>
+        <button type="button" class="form-submit" onclick="submitForm()">Send Message</button>
+      </div>
+      <div id="formSuccess" style="display:none;padding:2rem;border:1px solid var(--gold);text-align:center">
+        <div style="font-family:var(--serif);font-style:italic;font-size:1.4rem;color:var(--gold);margin-bottom:0.8rem">Thank you.</div>
+        <p style="font-size:0.82rem;color:var(--cream-dim);line-height:1.8">Your message has been received. I read every inquiry personally and will be in touch within 48 hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    TobyDphotographer
+    <span>Omoruyi Eghosa · Lagos, Nigeria</span>
+  </div>
+  <nav class="footer-nav">
+    <a href="#about">About</a>
+    <a href="#collections">Collections</a>
+    <a href="#services">Services</a>
+    <a href="#cv">CV</a>
+    <a href="#shop">Shop</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="footer-copy">© 2024 Omoruyi Eghosa. All rights reserved.</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// CURSOR — only on devices with a fine pointer (mouse)
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+const cursor = document.querySelector('.cursor');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+if (window.matchMedia('(pointer: fine)').matches) {
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+  });
+  function animateCursor() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('a,button,.masonry-item,.shop-item,.filter-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+  });
+} else {
+  cursor.style.display = 'none';
+}
+
+// NAV SCROLL
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// HAMBURGER
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  const isOpen = mobileMenu.classList.toggle('open');
+  hamburger.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+document.querySelectorAll('.mobile-nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+});
+
+// SCROLL REVEAL
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// FILTER
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.masonry-item').forEach(item => {
+      if (filter === 'all' || item.dataset.series === filter) {
+        item.style.display = 'block';
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(10px)';
+        setTimeout(() => {
+          item.style.transition = 'opacity 0.4s, transform 0.4s';
+          item.style.opacity = '1';
+          item.style.transform = 'translateY(0)';
+        }, 10);
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  });
+});
+
+// LIGHTBOX DATA
+const artworks = [
+  { series:'Painterly Series', title:'The Weight of Gold', year:'2022 · Archival Pigment Print · 80×100 cm', desc:'A meditation on inherited weight and ancestral responsibility. The subject bears expectations not of gold but of history — the luminosity of skin against the deep void of centuries of erasure.', exhibition:'Painterly Solo Exhibition — Lagos, 2022\nIndianapolis Cultural Center — 2022' },
+  { series:'The Orb Series', title:'Orb Bearer I', year:'2023 · Archival Pigment Print · 90×120 cm', desc:'The orb — sacred geometry, compressed memory of a civilisation\'s wisdom. In every self-portrait, the question is the same: what does one carry across centuries? Here, it glows.', exhibition:'Sold out — SuperRare Edition 10/10\nThe Orb Exhibition — Lagos, 2023' },
+  { series:'Drapery Studies', title:'In Crimson, I Mourn', year:'2022 · Archival Pigment Print · 70×90 cm', desc:'The body disappears into cloth, into grief made material. Red — the colour of blood and ceremony — becomes a kind of armour and a wound simultaneously. The face turns away; the gesture says everything.', exhibition:'Group Exhibition — ArtX Lagos, 2022\nInternational Photography Fair, Rome, 2023' },
+  { series:'Royalty Series', title:'Lagos Sovereign', year:'2023 · Archival Pigment Print · 100×130 cm', desc:'The first Nigerian king in a Renaissance portrait — not a fantasy, but a correction. This image insists on what was always true: sovereignty is not granted, it is remembered.', exhibition:'Featured — TransientLabs Edition 2/10\nHarlem Cultural Festival, New York, 2023' },
+  { series:'Self-Portraits', title:'Self-Study No. 7', year:'2021 · Archival Pigment Print · 60×80 cm', desc:'The first of the extended Self-Study series — made at 3am, by a single lamp, without audience or intention. These are the photographs that taught everything about what light can bear witness to.', exhibition:'Painterly Solo Exhibition — Lagos, 2022\nFoundation.app Edition 5/10' },
+  { series:'The Orb Series', title:'Orb Bearer II', year:'2023 · Archival Pigment Print · 90×120 cm', desc:'Continuation of the sacred exchange between seer and seen. The orb holds the names of those who came before; its carrier need not speak — the light speaks on their behalf.', exhibition:'The Orb Exhibition — Lagos, 2023\nNairobi Arts Week, Kenya, 2023' },
+  { series:'Painterly Series', title:'Painterly Study III', year:'2022 · Archival Pigment Print · 80×100 cm', desc:'The strongest Rembrandt light of the entire Painterly series. One lamp, positioned at 45 degrees, transforms — as it always has — a photographic subject into something approaching oil on panel.', exhibition:'Painterly Solo Exhibition — Lagos, 2022\nNew Contemporaries, London, 2023' },
+  { series:'Self-Portraits', title:'Self-Study No. 12', year:'2023 · Archival Pigment Print · 60×80 cm', desc:'Made at dawn. The quality of light at 5am in Lagos is incomparable — warm, low, slanted, as though the city itself is making a painting. The camera was pointed inward, as always.', exhibition:'Group Exhibition — Abuja Contemporary, 2023\nFoundation.app — Ed. 5/10' },
+];
+
+const lightboxSvgs = [
+  `<defs><radialGradient id="lb1" cx="35%" cy="28%" r="60%"><stop offset="0%" stop-color="#5A2A08"/><stop offset="100%" stop-color="#080402"/></radialGradient><filter id="lbf1"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="5" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="10" xChannelSelector="R" yChannelSelector="G"/></filter></defs><rect width="500" height="620" fill="#0A0603"/><ellipse cx="200" cy="270" rx="180" ry="220" fill="rgba(80,30,8,0.2)"/><path d="M95 620 L112 415 Q130 375 165 368 L310 368 Q340 375 355 415 L370 620Z" fill="#160804" filter="url(#lbf1)"/><path d="M50 620 L65 455 Q78 420 100 415 L110 455 Q88 495 85 620Z" fill="#4A0A16" opacity="0.8"/><ellipse cx="220" cy="288" rx="118" ry="145" fill="url(#lb1)"/><ellipse cx="182" cy="252" rx="52" ry="70" fill="rgba(210,135,50,0.22)"/><circle cx="192" cy="272" r="13" fill="#0A0402"/><circle cx="248" cy="272" r="13" fill="#0A0402"/><ellipse cx="186" cy="268" rx="3.5" ry="3.5" fill="rgba(255,205,85,0.42)"/><path d="M178 318 Q218 308 260 318 Q250 332 220 336 Q190 332 178 318" fill="#200C0E"/><path d="M128 178 Q158 138 220 128 Q280 138 310 178" stroke="#D4AF37" stroke-width="1.8" fill="none" opacity="0.52"/><circle cx="220" cy="126" r="6" fill="#D4AF37" opacity="0.68"/>`,
+  `<defs><radialGradient id="lb2" cx="45%" cy="35%" r="55%"><stop offset="0%" stop-color="#502208"/><stop offset="100%" stop-color="#060301"/></radialGradient><radialGradient id="lborb" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#D4AF37" stop-opacity="0.7"/><stop offset="100%" stop-color="transparent"/></radialGradient><filter id="lbog"><feGaussianBlur stdDeviation="18"/></filter></defs><rect width="500" height="620" fill="#060308"/><path d="M90 620 L105 448 Q122 408 152 400 L302 400 Q328 408 342 448 L356 620Z" fill="#100806"/><circle cx="380" cy="175" r="88" fill="#D4AF37" opacity="0.06" filter="url(#lbog)"/><circle cx="380" cy="175" r="88" fill="url(#lborb)"/><circle cx="380" cy="175" r="84" stroke="#D4AF37" stroke-width="1" fill="none" opacity="0.35"/><ellipse cx="356" cy="155" rx="20" ry="20" fill="rgba(255,245,180,0.18)"/><ellipse cx="210" cy="310" rx="108" ry="135" fill="url(#lb2)"/><ellipse cx="172" cy="278" rx="50" ry="68" fill="rgba(205,122,36,0.23)"/><circle cx="184" cy="302" r="12" fill="#090402"/><circle cx="238" cy="302" r="12" fill="#090402"/><ellipse cx="178" cy="298" rx="3.2" ry="3.2" fill="rgba(255,210,85,0.4)"/><path d="M170 346 Q208 336 248 346 Q238 360 210 364 Q182 360 170 346" fill="#1E0C10"/><path d="M120 195 Q148 158 210 148 Q272 158 298 195" stroke="#D4AF37" stroke-width="1.6" fill="none" opacity="0.5"/>`,
+];
+
+function openLightbox(idx) {
+  const lb = document.getElementById('lightbox');
+  const art = artworks[idx];
+  document.getElementById('lbSeries').textContent = art.series;
+  document.getElementById('lbTitle').textContent = art.title;
+  document.getElementById('lbYear').textContent = art.year;
+  document.getElementById('lbDesc').textContent = art.desc;
+  document.getElementById('lbExhibition').innerHTML = `<strong style="color:var(--cream-dim);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;">Exhibited</strong><br><span style="font-size:0.8rem;line-height:1.7;margin-top:0.4rem;display:block;">${art.exhibition}</span>`;
+  // Render SVG for first two, generic for rest
+  const svgEl = document.getElementById('lightboxSvg');
+  if (lightboxSvgs[idx]) {
+    svgEl.innerHTML = lightboxSvgs[idx];
+  } else {
+    svgEl.innerHTML = `<defs><radialGradient id="lbg" cx="40%" cy="30%" r="58%"><stop offset="0%" stop-color="#522008"/><stop offset="100%" stop-color="#070402"/></radialGradient></defs><rect width="500" height="620" fill="#090604"/><path d="M100 620 L115 430 Q132 392 162 385 L310 385 Q335 392 348 430 L360 620Z" fill="#130906"/><ellipse cx="220" cy="295" rx="110" ry="135" fill="url(#lbg)"/><ellipse cx="188" cy="265" rx="48" ry="65" fill="rgba(205,120,35,0.2)"/><circle cx="195" cy="285" r="12" fill="#090402"/><circle cx="245" cy="285" r="12" fill="#090402"/><path d="M180 325 Q215 315 252 325 Q242 338 218 342 Q192 338 180 325" fill="#200C10"/><path d="M125 185 Q152 148 218 140 Q278 148 305 185" stroke="#D4AF37" stroke-width="1.5" fill="none" opacity="0.48"/><circle cx="218" cy="138" r="5.5" fill="#D4AF37" opacity="0.65"/>`;
+  }
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// FORM
+function submitForm() {
+  document.getElementById('contactForm').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+}
+
+// Smooth link scrolling fallback
+document.querySelectorAll('a[href^="#"]').forEach(a => {
