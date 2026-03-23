@@ -214,8 +214,21 @@ body {
 .hero-bg {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
+  overflow: hidden;
 }
-.hero-bg svg { width: 100%; height: 100%; display: block; }
+.hero-bg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.hero-bg img.active {
+  opacity: 1;
+}
 /* Gradient fade from portrait into bg at bottom */
 .hero-fade {
   position: absolute;
@@ -877,16 +890,18 @@ hr.divide {
   .section { padding: 4rem 1.5rem; }
   footer { padding: 2rem 1.5rem; }
 }
+body.home .work-filters { display: none !important; }
+body.home .work-grid .work-item:nth-child(n+3) { display: none !important; }
 </style>
 </head>
-<body>
+<body class="home">
 
 <!-- ── SIDE NAV ── -->
 <nav class="sidenav">
   <a href="#hero" class="nav-logo">TobyDphotographer</a>
   <div class="nav-tagline">Omoruyi Eghosa · Lagos</div>
   <ul class="nav-links">
-    <li><a href="#work">Work</a></li>
+    <li><a href="collections.html">Work</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#cv">CV</a></li>
@@ -907,7 +922,7 @@ hr.divide {
 
 <!-- ── MOBILE MENU ── -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#work"     class="mnav">Work</a>
+  <a href="collections.html"     class="mnav">Work</a>
   <a href="#about"    class="mnav">About</a>
   <a href="#services" class="mnav">Services</a>
   <a href="#cv"       class="mnav">CV</a>
@@ -921,51 +936,11 @@ hr.divide {
 
 <!-- ── HERO ── -->
 <section id="hero">
-  <div class="hero-bg">
-    <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="hg1" cx="62%" cy="32%" r="52%">
-          <stop offset="0%" stop-color="#5C2E0A"/>
-          <stop offset="45%" stop-color="#2A1205"/>
-          <stop offset="100%" stop-color="#0A0603"/>
-        </radialGradient>
-        <filter id="hf1"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="10" xChannelSelector="R" yChannelSelector="G"/></filter>
-      </defs>
-      <rect width="1200" height="800" fill="#0E0B07"/>
-      <ellipse cx="700" cy="290" rx="440" ry="380" fill="rgba(88,36,10,0.55)"/>
-      <ellipse cx="680" cy="260" rx="220" ry="250" fill="rgba(155,72,18,0.18)"/>
-      <!-- Body -->
-      <path d="M485 800 L512 525 Q538 462 582 448 L758 448 Q800 462 818 525 L842 800Z" fill="#180C06" filter="url(#hf1)"/>
-      <!-- Red drapery left -->
-      <path d="M432 800 L450 605 Q464 558 490 550 L500 592 Q476 628 472 800Z" fill="#4E0A18" opacity="0.9"/>
-      <!-- Red drapery right -->
-      <path d="M840 800 L825 598 Q812 558 792 550 L784 594 Q806 630 808 800Z" fill="#3C0812" opacity="0.8"/>
-      <!-- Head -->
-      <ellipse cx="667" cy="330" rx="110" ry="132" fill="url(#hg1)"/>
-      <!-- Chiaroscuro warm left -->
-      <ellipse cx="615" cy="295" rx="56" ry="78" fill="rgba(200,115,35,0.22)"/>
-      <ellipse cx="600" cy="278" rx="32" ry="48" fill="rgba(235,150,55,0.12)"/>
-      <!-- Left eye -->
-      <ellipse cx="640" cy="318" rx="15" ry="10" fill="#0A0402"/>
-      <ellipse cx="640" cy="317" rx="7" ry="7" fill="#160A04"/>
-      <ellipse cx="636" cy="314" rx="2.5" ry="2.5" fill="rgba(255,210,90,0.4)"/>
-      <!-- Right eye -->
-      <ellipse cx="694" cy="318" rx="15" ry="10" fill="#0A0402"/>
-      <ellipse cx="694" cy="317" rx="7" ry="7" fill="#160A04"/>
-      <ellipse cx="690" cy="314" rx="2.5" ry="2.5" fill="rgba(255,210,90,0.35)"/>
-      <!-- Brows -->
-      <path d="M624 303 Q639 296 657 299" stroke="#0A0402" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <path d="M678 299 Q692 293 710 300" stroke="#0A0402" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <!-- Nose -->
-      <path d="M665 335 Q659 356 651 366 Q665 370 681 366 Q673 356 665 335" fill="rgba(10,4,2,0.4)"/>
-      <!-- Lips -->
-      <path d="M646 393 Q666 385 688 393 Q680 403 666 406 Q652 403 646 393" fill="#28080E"/>
-      <!-- Crown ornament -->
-      <path d="M574 228 Q606 185 667 175 Q728 185 758 228" stroke="#B8922A" stroke-width="1.5" fill="none" opacity="0.6"/>
-      <circle cx="667" cy="173" r="5.5" fill="#B8922A" opacity="0.7"/>
-      <circle cx="605" cy="207" r="3.5" fill="#B8922A" opacity="0.45"/>
-      <circle cx="729" cy="207" r="3.5" fill="#B8922A" opacity="0.45"/>
-    </svg>
+  <div class="hero-bg" id="heroBg">
+    <img class="hero-slide active" src="Images/AfroGirl.jpg" alt="Hero image: AfroGirl" loading="lazy">
+    <img class="hero-slide" src="Images/BookMan.jpg" alt="Hero image: BookMan" loading="lazy">
+    <img class="hero-slide" src="Images/CasseteGirl.jpg" alt="Hero image: CasseteGirl" loading="lazy">
+    <img class="hero-slide" src="Images/CloudMan.jpg" alt="Hero image: CloudMan" loading="lazy">
   </div>
   <div class="hero-fade"></div>
 
@@ -1179,6 +1154,9 @@ hr.divide {
     </div>
 
   </div><!-- /work-grid -->
+  <div class="teaser-actions reveal d2" style="margin-top:2rem; text-align:center;">
+    <a href="collections.html" class="btn-solid">View All Work</a>
+  </div>
 </section>
 
 <!-- ── LIGHTBOX ── -->
@@ -1210,48 +1188,7 @@ hr.divide {
   <h2 class="section-title reveal d1">Omoruyi <em>Eghosa</em></h2>
   <div class="about-grid">
     <div class="about-portrait reveal">
-      <svg viewBox="0 0 460 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="p2" cx="38%" cy="30%" r="65%"><stop offset="0%" stop-color="#6B3515"/><stop offset="55%" stop-color="#3D1A07"/><stop offset="100%" stop-color="#0C0603"/></radialGradient>
-          <linearGradient id="bg2" x1="0%" y1="0%" x2="70%" y2="100%"><stop offset="0%" stop-color="#1C0A02"/><stop offset="100%" stop-color="#060301"/></linearGradient>
-          <filter id="soft2"><feGaussianBlur stdDeviation="7"/></filter>
-        </defs>
-        <rect width="460" height="600" fill="url(#bg2)"/>
-        <ellipse cx="185" cy="245" rx="230" ry="275" fill="rgba(120,55,15,0.1)" filter="url(#soft2)"/>
-        <!-- Camera -->
-        <rect x="192" y="415" width="100" height="68" rx="6" fill="#181008" opacity="0.8"/>
-        <rect x="207" y="405" width="30" height="20" rx="3" fill="#141006" opacity="0.7"/>
-        <circle cx="252" cy="449" r="22" fill="#0E0906"/>
-        <circle cx="252" cy="449" r="14" fill="#12100B"/>
-        <circle cx="252" cy="449" r="7" fill="#0A0807" opacity="0.8"/>
-        <ellipse cx="246" cy="443" rx="3" ry="3" fill="rgba(255,220,120,0.2)"/>
-        <!-- Body -->
-        <path d="M132 600 L148 452 Q167 420 194 410 L295 410 Q325 420 343 452 L358 600Z" fill="#1A0D06" opacity="0.9"/>
-        <!-- Neck/shoulder to head transition -->
-        <path d="M194 400 Q225 384 255 384 Q282 384 298 400 L303 428 Q272 445 225 445 Q193 445 192 428Z" fill="url(#p2)"/>
-        <!-- Head -->
-        <ellipse cx="248" cy="290" rx="94" ry="110" fill="url(#p2)"/>
-        <!-- Chiaroscuro -->
-        <ellipse cx="208" cy="268" rx="48" ry="64" fill="rgba(200,115,40,0.18)" filter="url(#soft2)"/>
-        <!-- Left eye -->
-        <ellipse cx="222" cy="284" rx="13" ry="8" fill="#080402"/>
-        <ellipse cx="222" cy="283" rx="5" ry="5" fill="#160A04"/>
-        <ellipse cx="219" cy="280" rx="1.5" ry="1.5" fill="rgba(255,200,80,0.5)"/>
-        <!-- Right eye -->
-        <ellipse cx="272" cy="284" rx="13" ry="8" fill="#080402"/>
-        <ellipse cx="272" cy="283" rx="5" ry="5" fill="#160A04"/>
-        <ellipse cx="269" cy="280" rx="1.5" ry="1.5" fill="rgba(255,200,80,0.4)"/>
-        <!-- Brows -->
-        <path d="M207 270 Q221 262 236 266" stroke="#080402" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <path d="M260 266 Q272 261 284 268" stroke="#080402" stroke-width="2" fill="none" stroke-linecap="round"/>
-        <!-- Nose -->
-        <path d="M246 308 Q240 328 234 336 Q246 340 260 336 Q254 328 246 308" fill="rgba(8,4,2,0.45)"/>
-        <!-- Lips -->
-        <path d="M232 362 Q246 354 261 362 Q254 372 246 374 Q238 372 232 362" fill="#240810"/>
-        <!-- Crown ornament -->
-        <path d="M175 224 Q197 188 248 180 Q298 188 320 224" stroke="#B8922A" stroke-width="1.2" fill="none" opacity="0.55"/>
-        <circle cx="248" cy="178" r="4" fill="#B8922A" opacity="0.65"/>
-      </svg>
+      <img src="Images/IMG_4074.JPG" alt="Omoruyi Eghosa" style="width:100%; display:block;">
     </div>
     <div class="about-body">
       <p class="reveal">Born in Lagos, Nigeria in 1997, Omoruyi Eghosa — known as TobyDphotographer — is a self-taught multidisciplinary artist whose practice exists at the luminous threshold between photography and Old Master painting.</p>
@@ -1526,7 +1463,7 @@ hr.divide {
 <footer>
   <div class="foot-brand">TobyDphotographer <span>Omoruyi Eghosa · Lagos, Nigeria</span></div>
   <div class="foot-links">
-    <a href="#work">Work</a>
+    <a href="collections.html">Work</a>
     <a href="#about">About</a>
     <a href="#services">Services</a>
     <a href="#cv">CV</a>
@@ -1537,6 +1474,17 @@ hr.divide {
 </footer>
 
 <script>
+// HERO SLIDESHOW
+const heroSlides = Array.from(document.querySelectorAll('.hero-slide'));
+let heroSlideIndex = 0;
+if (heroSlides.length > 1) {
+  setInterval(() => {
+    heroSlides[heroSlideIndex].classList.remove('active');
+    heroSlideIndex = (heroSlideIndex + 1) % heroSlides.length;
+    heroSlides[heroSlideIndex].classList.add('active');
+  }, 5500);
+}
+
 // HAMBURGER
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
